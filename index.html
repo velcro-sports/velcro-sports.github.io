@@ -5,22 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Velcro Sports</title>
     <style>
+        /* General Styles */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
         }
+
+        /* Navigation Bar Styles */
+        .navbar {
+            background-color: #1a1a1a; /* Use the same black as in the logo */
+            width: 100%;
+            padding: 10px 20px; /* Padding to add space */
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar img {
+            height: 50px;
+            width: auto;
+            margin-right: 20px; /* Space between the logo and the navbar items */
+        }
+
+        .navbar-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-list li {
+            margin: 0 15px;
+            position: relative; /* For dropdown positioning */
+        }
+
+        .navbar-list a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 8px 16px;
+            display: block;
+        }
+
+        .navbar-list a:hover {
+            background-color: #575757;
+            border-radius: 4px;
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            color: white;
+            font-size: 16px;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #575757;
+        }
+
+        .navbar-list li:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Sign In Button */
+        .sign-in {
+            background-color: white;
+            color: #1a1a1a;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 18px;
+            border: 2px solid #1a1a1a;
+            margin-right: 20px; /* Add gap from the edge */
+        }
+
+        .sign-in:hover {
+            background-color: #575757;
+            color: white;
+        }
+
+        /* Container Styles */
         .container {
             text-align: center;
+            margin-top: 80px;
         }
+
         h1 {
             font-size: 2.5em;
             margin: 0;
         }
+
         h2 {
             font-size: 1.5em;
             margin: 0;
@@ -29,6 +129,36 @@
     </style>
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="images/logo.png" alt="Logo">
+            <ul class="navbar-list">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li>
+                    <a href="#">Sports</a>
+                    <div class="dropdown-content">
+                        <a href="#volleyball">Volleyball</a>
+                        <a href="#basketball">Basketball</a>
+                        <a href="#soccer">Soccer</a>
+                        <a href="#badminton">Badminton</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">Activities</a>
+                    <div class="dropdown-content">
+                        <a href="#hiking">Hiking</a>
+                        <a href="#fishing">Fishing</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <a href="#signin" class="sign-in">Sign In</a>
+    </nav>
+
+    <!-- Main Content -->
     <div class="container">
         <h1>Velcro Sports</h1>
         <h2>Weaving Communities</h2>
