@@ -165,34 +165,73 @@ $(document).ready(function () {
                 }
             }
         }
-        console.log("Extracted names:", names);
         return names;
     }
 
     // Function to create balanced teams
     function createBalancedTeams(names) {
-        // Filter and sort available players by skill (highest to lowest)
-        const availablePlayers = players
-            .filter(player => names.includes(player.name.toLowerCase()))
-            .sort((a, b) => b.skill - a.skill);
+        const availablePlayers = players.filter(player => names.includes(player.name.toLowerCase()));
 
-        // Initialize teams
+        // Calculate the target average skill
+        const totalSkill = availablePlayers.reduce((sum, player) => sum + player.skill, 0);
+        const targetAverage = totalSkill / 3; // Divide by 3 for three teams
+
+        // Sort players by skill level (descending)
+        availablePlayers.sort((a, b) => b.skill - a.skill);
+
         const teams = [[], [], []];
 
-        // Helper function to get team with lowest total skill
-        const getLowestSkillTeam = () => {
-            return teams.reduce((lowest, current) => {
-                const currentSkill = current.reduce((sum, player) => sum + player.skill, 0);
-                const lowestSkill = lowest.reduce((sum, player) => sum + player.skill, 0);
-                return currentSkill < lowestSkill ? current : lowest;
-            });
-        };
+        function getTeamSkill(team) {
+            return team.reduce((sum, player) => sum + player.skill, 0);
+        }
 
         // Distribute players to teams
         availablePlayers.forEach(player => {
-            const teamToAddTo = getLowestSkillTeam();
-            teamToAddTo.push(player);
+            // Find the team with the lowest total skill
+            const teamIndex = teams.reduce((lowestIndex, team, index, arr) =>
+                getTeamSkill(arr[lowestIndex]) > getTeamSkill(team) ? index : lowestIndex, 0);
+
+            // Add player to the team
+            teams[teamIndex].push(player);
         });
+
+        // Fine-tuning: Swap players between teams to get closer to the target average
+        let improved = true;
+        while (improved) {
+            improved = false;
+            for (let i = 0; i < 3; i++) {
+                for (let j = i + 1; j < 3; j++) {
+                    for (let pi = 0; pi < teams[i].length; pi++) {
+                        for (let pj = 0; pj < teams[j].length; pj++) {
+                            const skillDiffI = Math.abs(getTeamSkill(teams[i]) - targetAverage);
+                            const skillDiffJ = Math.abs(getTeamSkill(teams[j]) - targetAverage);
+
+                            // Simulate swap
+                            const tempPlayerI = teams[i][pi];
+                            const tempPlayerJ = teams[j][pj];
+                            teams[i][pi] = tempPlayerJ;
+                            teams[j][pj] = tempPlayerI;
+
+                            const newSkillDiffI = Math.abs(getTeamSkill(teams[i]) - targetAverage);
+                            const newSkillDiffJ = Math.abs(getTeamSkill(teams[j]) - targetAverage);
+
+                            if (newSkillDiffI + newSkillDiffJ < skillDiffI + skillDiffJ) {
+                                improved = true; // Keep the swap
+                            } else {
+                                // Revert the swap
+                                teams[i][pi] = tempPlayerI;
+                                teams[j][pj] = tempPlayerJ;
+                            }
+
+                            if (improved) break;
+                        }
+                        if (improved) break;
+                    }
+                    if (improved) break;
+                }
+                if (improved) break;
+            }
+        }
 
         return teams;
     }
@@ -208,6 +247,8 @@ $(document).ready(function () {
         }
 
         const balancedTeams = createBalancedTeams(extractedNames);
+
+        console.log(balancedTeams)
 
         // Clear existing teams
         $(".team-players").empty();
