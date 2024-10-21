@@ -28,7 +28,8 @@ $(document).ready(function () {
         { name: "Mohammed", skill: 2 },
         { name: "Mahd", skill: 2 },
         { name: "Owais", skill: 3.5 },
-        { name: "Arham", skill: 3 }
+        { name: "Arham", skill: 3 },
+        { name: "Ebrahim", skill: 1.5 }
     ];
 
     // Function to display the players sorted by skill (highest to lowest)
