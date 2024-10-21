@@ -142,4 +142,92 @@ $(document).ready(function () {
         renderPlayerList(); // Reset and re-sort the player list
         updateAverageSkill(); // Update team averages
     });
+
+    // Function to extract names from the roster
+    function extractNames(rosterText) {
+        const lines = rosterText.split('\n');
+        const names = [];
+        let startReading = false;
+
+        for (const line of lines) {
+            if (line.toLowerCase().includes('volleyball roster')) {
+                startReading = true;
+                continue;
+            }
+            if (line.toLowerCase().includes('waitlist:')) {
+                break;
+            }
+            if (startReading) {
+                const match = line.match(/(([A-Za-z])+)/);
+                if (match) {
+                    names.push(match[1].toLowerCase());
+                }
+            }
+        }
+        console.log("Extracted names:", names);
+        return names;
+    }
+
+    // Function to create balanced teams
+    function createBalancedTeams(names) {
+        // Filter and sort available players by skill (highest to lowest)
+        const availablePlayers = players
+            .filter(player => names.includes(player.name.toLowerCase()))
+            .sort((a, b) => b.skill - a.skill);
+
+        // Initialize teams
+        const teams = [[], [], []];
+
+        // Helper function to get team with lowest total skill
+        const getLowestSkillTeam = () => {
+            return teams.reduce((lowest, current) => {
+                const currentSkill = current.reduce((sum, player) => sum + player.skill, 0);
+                const lowestSkill = lowest.reduce((sum, player) => sum + player.skill, 0);
+                return currentSkill < lowestSkill ? current : lowest;
+            });
+        };
+
+        // Distribute players to teams
+        availablePlayers.forEach(player => {
+            const teamToAddTo = getLowestSkillTeam();
+            teamToAddTo.push(player);
+        });
+
+        return teams;
+    }
+
+    // Handle create teams button click
+    $("#createTeams").click(function () {
+        const rosterText = $("#rosterInput").val();
+        const extractedNames = extractNames(rosterText);
+
+        if (extractedNames.length === 0) {
+            alert("No valid names found in the roster. Please check the input.");
+            return;
+        }
+
+        const balancedTeams = createBalancedTeams(extractedNames);
+
+        // Clear existing teams
+        $(".team-players").empty();
+
+        // Add players to teams
+        balancedTeams.forEach((team, index) => {
+            const teamElement = $(`#team${index + 1} .team-players`);
+            team.forEach(player => {
+                teamElement.append(`
+                    <div class="player" data-name="${player.name}" data-skill="${player.skill}">
+                        ${player.name} (${player.skill})
+                        <button class="remove-player">X</button>
+                    </div>
+                `);
+            });
+        });
+
+        // Update average skills and check for warnings
+        updateAverageSkill();
+
+        // Clear the player list and re-render it
+        renderPlayerList();
+    });
 });
