@@ -30,6 +30,7 @@ $(document).ready(function () {
         { name: "Owais", attack: 7, defence: 7 },
         { name: "Arham", attack: 7, defence: 7 },
         { name: "Ebrahim", attack: 3, defence: 3 },
+        { name: "Hamza", attack: 5, defence: 5 }
     ];
 
     // Function to display the players sorted by average skill (highest to lowest)
