@@ -1,48 +1,51 @@
 $(document).ready(function () {
     // Sample player data
     const players = [
-        { name: "Aiesh", skill: 4.5 },
-        { name: "Zaid", skill: 3.0 },
-        { name: "Shoaib", skill: 3.5 },
-        { name: "Aman", skill: 4.5 },
-        { name: "Abdullah", skill: 3.5 },
-        { name: "Jayant", skill: 4.5 },
-        { name: "Osman", skill: 4.5 },
-        { name: "Wisam", skill: 2.5 },
-        { name: "Rohail", skill: 3.5 },
-        { name: "Affan", skill: 3.5 },
-        { name: "Hammad", skill: 2.5 },
-        { name: "Imam", skill: 2.5 },
-        { name: "Hassan", skill: 3 },
-        { name: "Moin", skill: 2.5 },
-        { name: "Saad", skill: 3 },
-        { name: "Salim", skill: 3.5 },
-        { name: "Waeel", skill: 2 },
-        { name: "Basil", skill: 2 },
-        { name: "Turab", skill: 4.5 },
-        { name: "Anees", skill: 4 },
-        { name: "Hussain", skill: 2.5 },
-        { name: "Roshan", skill: 3.5 },
-        { name: "Majd", skill: 3.5 },
-        { name: "Yahya", skill: 0.5 },
-        { name: "Mohammed", skill: 2 },
-        { name: "Mahd", skill: 2 },
-        { name: "Owais", skill: 3.5 },
-        { name: "Arham", skill: 3 },
-        { name: "Ebrahim", skill: 1.5 }
+        { name: "Aiesh", attack: 8, defence: 7 },
+        { name: "Zaid", attack: 7, defence: 5 },
+        { name: "Shoaib", attack: 6, defence: 8 },
+        { name: "Aman", attack: 9, defence: 9 },
+        { name: "Abdullah", attack: 7, defence: 4 },
+        { name: "Jayant", attack: 10, defence: 8 },
+        { name: "Osman", attack: 9, defence: 7 },
+        { name: "Wisam", attack: 6, defence: 4 },
+        { name: "Rohail", attack: 8, defence: 6 },
+        { name: "Affan", attack: 7, defence: 7 },
+        { name: "Hammad", attack: 5, defence: 5 },
+        { name: "Imam", attack: 6, defence: 5 },
+        { name: "Hassan", attack: 7, defence: 7 },
+        { name: "Moin", attack: 6, defence: 6 },
+        { name: "Saad", attack: 6, defence: 7 },
+        { name: "Salim", attack: 7, defence: 7 },
+        { name: "Waeel", attack: 3, defence: 3 },
+        { name: "Basil", attack: 4, defence: 4 },
+        { name: "Turab", attack: 9, defence: 9 },
+        { name: "Anees", attack: 7, defence: 7 },
+        { name: "Hussain", attack: 5, defence: 5 },
+        { name: "Roshan", attack: 7, defence: 7 },
+        { name: "Majd", attack: 8, defence: 7 },
+        { name: "Yahya", attack: 2, defence: 2 },
+        { name: "Mohammed", attack: 4, defence: 4 },
+        { name: "Mahd", attack: 4, defence: 4 },
+        { name: "Owais", attack: 7, defence: 7 },
+        { name: "Arham", attack: 7, defence: 7 },
+        { name: "Ebrahim", attack: 3, defence: 3 },
+        { name: "Hamza", attack: 5, defence: 5 }
     ];
 
-    // Function to display the players sorted by skill (highest to lowest)
+    // Function to display the players sorted by average skill (highest to lowest)
     function renderPlayerList() {
         $('#playerList tbody').empty();
-        players.sort((a, b) => b.skill - a.skill); // Sort by skill descending
+        players.sort((a, b) => ((b.attack + b.defence) / 2) - ((a.attack + a.defence) / 2)); // Sort by average skill descending
 
-        players.forEach(player => {
-            if ($(".team-players").find("[data-name='" + player.name + "']").length === 0) { // Check if player is not already in a team
+        players.forEach((player, index) => {
+            if ($(".team-players").find("[data-name='" + player.name + "']").length === 0) {
                 $('#playerList tbody').append(`
-                    <tr class="draggable" data-name="${player.name}" data-skill="${player.skill}">
+                    <tr class="draggable" data-name="${player.name}" data-attack="${player.attack}" data-defence="${player.defence}">
+                        <td>${index + 1}</td>
                         <td>${player.name}</td>
-                        <td>${player.skill}</td>
+                        <td>${player.attack}</td>
+                        <td>${player.defence}</td>
                         <td>
                             <button class="add-to-team" data-team="1">1</button>
                             <button class="add-to-team" data-team="2">2</button>
@@ -54,6 +57,7 @@ $(document).ready(function () {
         });
     }
 
+    console.log("hm...");
     // Initial render of the player list
     renderPlayerList();
 
@@ -61,7 +65,8 @@ $(document).ready(function () {
     $(document).on('click', '.add-to-team', function () {
         let playerRow = $(this).closest('tr');
         let playerName = playerRow.data('name');
-        let playerSkill = parseFloat(playerRow.data('skill'));
+        let playerAttack = parseFloat(playerRow.data('attack'));
+        let playerDefence = parseFloat(playerRow.data('defence'));
         let teamNum = $(this).data('team');
         let selectedTeam = $("#team" + teamNum + " .team-players");
 
@@ -73,8 +78,8 @@ $(document).ready(function () {
 
         // Add the player to the selected team
         selectedTeam.append(`
-            <div class="player" data-name="${playerName}" data-skill="${playerSkill}">
-                ${playerName} (${playerSkill})
+            <div class="player" data-name="${playerName}" data-attack="${playerAttack}" data-defence="${playerDefence}">
+                ${playerName} (A: ${playerAttack}, D: ${playerDefence})
                 <button class="remove-player">X</button>
             </div>
         `);
@@ -90,7 +95,8 @@ $(document).ready(function () {
     $(document).on("click", ".remove-player", function () {
         let playerDiv = $(this).closest(".player");
         let playerName = playerDiv.data("name");
-        let playerSkill = playerDiv.data("skill");
+        let playerAttack = playerDiv.data("attack");
+        let playerDefence = playerDiv.data("defence");
 
         // Remove the player from the team
         playerDiv.remove();
@@ -102,18 +108,23 @@ $(document).ready(function () {
         updateAverageSkill();
     });
 
-    // Function to update team average skill
+    // Function to update team average skills
     function updateAverageSkill() {
         for (let i = 1; i <= 3; i++) {
             let teamPlayers = $("#team" + i + " .team-players .player");
-            let totalSkill = 0;
+            let totalAttack = 0;
+            let totalDefence = 0;
 
             teamPlayers.each(function () {
-                totalSkill += parseFloat($(this).data("skill"));
+                totalAttack += parseFloat($(this).data("attack"));
+                totalDefence += parseFloat($(this).data("defence"));
             });
 
-            let avgSkill = (teamPlayers.length > 0) ? (totalSkill / teamPlayers.length).toFixed(2) : "0.00";
-            $("#team" + i + " .avg-skill").text(avgSkill);
+            let avgAttack = (teamPlayers.length > 0) ? (totalAttack / teamPlayers.length).toFixed(2) : "0.00";
+            let avgDefence = (teamPlayers.length > 0) ? (totalDefence / teamPlayers.length).toFixed(2) : "0.00";
+            let avgSkill = (teamPlayers.length > 0) ? ((totalAttack + totalDefence) / (2 * teamPlayers.length)).toFixed(2) : "0.00";
+
+            $("#team" + i + " .avg-skill").text(`Avg: ${avgSkill} (A: ${avgAttack}, D: ${avgDefence})`);
         }
 
         // Check for skill differences between teams
@@ -122,9 +133,9 @@ $(document).ready(function () {
 
     // Function to check if the average skill difference is too large
     function checkSkillDifference() {
-        let team1Avg = parseFloat($("#team1 .avg-skill").text());
-        let team2Avg = parseFloat($("#team2 .avg-skill").text());
-        let team3Avg = parseFloat($("#team3 .avg-skill").text());
+        let team1Avg = parseFloat($("#team1 .avg-skill").text().split(':')[1].split('(')[0]);
+        let team2Avg = parseFloat($("#team2 .avg-skill").text().split(':')[1].split('(')[0]);
+        let team3Avg = parseFloat($("#team3 .avg-skill").text().split(':')[1].split('(')[0]);
 
         let skillDifference12 = Math.abs(team1Avg - team2Avg);
         let skillDifference13 = Math.abs(team1Avg - team3Avg);
@@ -171,56 +182,51 @@ $(document).ready(function () {
     // Function to create balanced teams
     function createBalancedTeams(names) {
         const availablePlayers = players.filter(player => names.includes(player.name.toLowerCase()));
-
-        // Calculate the target average skill
-        const totalSkill = availablePlayers.reduce((sum, player) => sum + player.skill, 0);
-        const targetAverage = totalSkill / 3; // Divide by 3 for three teams
-
-        // Sort players by skill level (descending)
-        availablePlayers.sort((a, b) => b.skill - a.skill);
-
+        const teamCount = 3;
+        const playersPerTeam = Math.floor(availablePlayers.length / teamCount);
         const teams = [[], [], []];
 
-        function getTeamSkill(team) {
-            return team.reduce((sum, player) => sum + player.skill, 0);
-        }
+        // Sort players by average skill level (descending)
+        availablePlayers.sort((a, b) => ((b.attack + b.defence) / 2) - ((a.attack + a.defence) / 2));
 
         // Distribute players to teams
-        availablePlayers.forEach(player => {
-            // Find the team with the lowest total skill
-            const teamIndex = teams.reduce((lowestIndex, team, index, arr) =>
-                getTeamSkill(arr[lowestIndex]) > getTeamSkill(team) ? index : lowestIndex, 0);
+        for (let i = 0; i < availablePlayers.length; i++) {
+            const teamIndex = i % teamCount;
+            teams[teamIndex].push(availablePlayers[i]);
+        }
 
-            // Add player to the team
-            teams[teamIndex].push(player);
-        });
-
-        // Fine-tuning: Swap players between teams to get closer to the target average
-        let improved = true;
-        while (improved) {
-            improved = false;
-            for (let i = 0; i < 3; i++) {
-                for (let j = i + 1; j < 3; j++) {
+        // Fine-tuning: Swap players between teams to balance attack and defence
+        for (let iteration = 0; iteration < 100; iteration++) {
+            let improved = false;
+            for (let i = 0; i < teamCount; i++) {
+                for (let j = i + 1; j < teamCount; j++) {
                     for (let pi = 0; pi < teams[i].length; pi++) {
                         for (let pj = 0; pj < teams[j].length; pj++) {
-                            const skillDiffI = Math.abs(getTeamSkill(teams[i]) - targetAverage);
-                            const skillDiffJ = Math.abs(getTeamSkill(teams[j]) - targetAverage);
+                            const team1Attack = teams[i].reduce((sum, p) => sum + p.attack, 0);
+                            const team1Defence = teams[i].reduce((sum, p) => sum + p.defence, 0);
+                            const team2Attack = teams[j].reduce((sum, p) => sum + p.attack, 0);
+                            const team2Defence = teams[j].reduce((sum, p) => sum + p.defence, 0);
+
+                            const currentDiff = Math.abs(team1Attack - team2Attack) + Math.abs(team1Defence - team2Defence);
 
                             // Simulate swap
-                            const tempPlayerI = teams[i][pi];
-                            const tempPlayerJ = teams[j][pj];
-                            teams[i][pi] = tempPlayerJ;
-                            teams[j][pj] = tempPlayerI;
+                            const tempPlayer = teams[i][pi];
+                            teams[i][pi] = teams[j][pj];
+                            teams[j][pj] = tempPlayer;
 
-                            const newSkillDiffI = Math.abs(getTeamSkill(teams[i]) - targetAverage);
-                            const newSkillDiffJ = Math.abs(getTeamSkill(teams[j]) - targetAverage);
+                            const newTeam1Attack = teams[i].reduce((sum, p) => sum + p.attack, 0);
+                            const newTeam1Defence = teams[i].reduce((sum, p) => sum + p.defence, 0);
+                            const newTeam2Attack = teams[j].reduce((sum, p) => sum + p.attack, 0);
+                            const newTeam2Defence = teams[j].reduce((sum, p) => sum + p.defence, 0);
 
-                            if (newSkillDiffI + newSkillDiffJ < skillDiffI + skillDiffJ) {
-                                improved = true; // Keep the swap
+                            const newDiff = Math.abs(newTeam1Attack - newTeam2Attack) + Math.abs(newTeam1Defence - newTeam2Defence);
+
+                            if (newDiff < currentDiff) {
+                                improved = true;
                             } else {
                                 // Revert the swap
-                                teams[i][pi] = tempPlayerI;
-                                teams[j][pj] = tempPlayerJ;
+                                teams[j][pj] = teams[i][pi];
+                                teams[i][pi] = tempPlayer;
                             }
 
                             if (improved) break;
@@ -231,6 +237,7 @@ $(document).ready(function () {
                 }
                 if (improved) break;
             }
+            if (!improved) break;
         }
 
         return teams;
@@ -248,8 +255,6 @@ $(document).ready(function () {
 
         const balancedTeams = createBalancedTeams(extractedNames);
 
-        console.log(balancedTeams)
-
         // Clear existing teams
         $(".team-players").empty();
 
@@ -258,8 +263,8 @@ $(document).ready(function () {
             const teamElement = $(`#team${index + 1} .team-players`);
             team.forEach(player => {
                 teamElement.append(`
-                    <div class="player" data-name="${player.name}" data-skill="${player.skill}">
-                        ${player.name} (${player.skill})
+                    <div class="player" data-name="${player.name}" data-attack="${player.attack}" data-defence="${player.defence}">
+                        ${player.name} (A: ${player.attack}, D: ${player.defence})
                         <button class="remove-player">X</button>
                     </div>
                 `);
