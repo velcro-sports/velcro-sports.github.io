@@ -33,7 +33,8 @@ $(document).ready(function () {
         { name: "Hamza", attack: 6, defence: 6 },
         { name: "Muqtadir", attack: 5, defence: 5 },
         { name: "Anas", attack: 5, defence: 5 },
-        { name: "Zain", attack: 7, defence: 5 }
+        { name: "Zain", attack: 7, defence: 5 },
+        { name: "Faizan", attack: 5, defence: 5 }
     ];
 
     // Function to display the players sorted by average skill (highest to lowest)
@@ -60,7 +61,6 @@ $(document).ready(function () {
         });
     }
 
-    console.log("hm...");
     // Initial render of the player list
     renderPlayerList();
 
@@ -164,18 +164,38 @@ $(document).ready(function () {
         const names = [];
         let startReading = false;
 
+        // Helper function to find full name from prefix
+        function findMatchingName(prefix) {
+            prefix = prefix.toLowerCase();
+            // Find exact match first
+            const exactMatch = players.find(p => p.name.toLowerCase() === prefix);
+            if (exactMatch) return prefix;
+
+            // Find prefix match
+            const prefixMatch = players.find(p => p.name.toLowerCase().startsWith(prefix));
+            if (prefixMatch) return prefixMatch.name.toLowerCase();
+
+            // If no match found, return the original prefix
+            return prefix;
+        }
+
         for (const line of lines) {
             if (line.toLowerCase().includes('volleyball roster')) {
                 startReading = true;
                 continue;
             }
-            if (line.toLowerCase().includes('waitlist:')) {
+            if (line.toLowerCase().includes('waitlist')) {
                 break;
             }
             if (startReading) {
                 const match = line.match(/(([A-Za-z])+)/);
+                console.log(match)
                 if (match) {
-                    names.push(match[1].toLowerCase());
+                    const extractedName = match[1].toLowerCase();
+                    console.log(extractedName)
+                    const actualName = findMatchingName(extractedName);
+                    console.log(actualName)
+                    names.push(actualName);
                 }
             }
         }
