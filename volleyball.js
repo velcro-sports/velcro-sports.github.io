@@ -189,12 +189,9 @@ $(document).ready(function () {
             }
             if (startReading) {
                 const match = line.match(/(([A-Za-z])+)/);
-                console.log(match)
                 if (match) {
                     const extractedName = match[1].toLowerCase();
-                    console.log(extractedName)
                     const actualName = findMatchingName(extractedName);
-                    console.log(actualName)
                     names.push(actualName);
                 }
             }
@@ -206,61 +203,84 @@ $(document).ready(function () {
     function createBalancedTeams(names) {
         const availablePlayers = players.filter(player => names.includes(player.name.toLowerCase()));
         const teamCount = 3;
-        const playersPerTeam = Math.floor(availablePlayers.length / teamCount);
         const teams = [[], [], []];
+        const maxTeamSize = 6;
 
         // Sort players by average skill level (descending)
         availablePlayers.sort((a, b) => ((b.attack + b.defence) / 2) - ((a.attack + a.defence) / 2));
 
         // Distribute players to teams
         for (let i = 0; i < availablePlayers.length; i++) {
-            const teamIndex = i % teamCount;
+            let teamIndex;
+            do {
+                teamIndex = Math.floor(Math.random() * teamCount);
+            } while (teams[teamIndex].length >= maxTeamSize);
+
             teams[teamIndex].push(availablePlayers[i]);
         }
 
         // Fine-tuning: Swap players between teams to balance attack and defence
-        for (let iteration = 0; iteration < 100; iteration++) {
-            let improved = false;
-            for (let i = 0; i < teamCount; i++) {
+        function calculateTeamStats(team) {
+            return {
+                attack: team.reduce((sum, p) => sum + p.attack, 0),
+                defence: team.reduce((sum, p) => sum + p.defence, 0)
+            };
+        }
+
+        function calculateDifference(team1Stats, team2Stats) {
+            return Math.abs(team1Stats.attack - team2Stats.attack) +
+                Math.abs(team1Stats.defence - team2Stats.defence);
+        }
+
+        function trySwapPlayers(team1, team2, player1Index, player2Index) {
+            // Calculate current difference
+            const team1StatsBefore = calculateTeamStats(team1);
+            const team2StatsBefore = calculateTeamStats(team2);
+            const diffBefore = calculateDifference(team1StatsBefore, team2StatsBefore);
+
+            // Perform swap
+            [team1[player1Index], team2[player2Index]] =
+                [team2[player2Index], team1[player1Index]];
+
+            // Calculate new difference
+            const team1StatsAfter = calculateTeamStats(team1);
+            const team2StatsAfter = calculateTeamStats(team2);
+            const diffAfter = calculateDifference(team1StatsAfter, team2StatsAfter);
+
+            // If not improved, revert swap
+            if (diffAfter >= diffBefore) {
+                [team1[player1Index], team2[player2Index]] =
+                    [team2[player2Index], team1[player1Index]];
+                return false;
+            }
+            return true;
+        }
+
+        // Main optimization loop
+        const MAX_ITERATIONS = 1000;
+        for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+            let improvedThisIteration = false;
+
+            // Try swaps between each pair of teams
+            for (let i = 0; i < teamCount - 1; i++) {
                 for (let j = i + 1; j < teamCount; j++) {
+                    // Try each player combination
                     for (let pi = 0; pi < teams[i].length; pi++) {
                         for (let pj = 0; pj < teams[j].length; pj++) {
-                            const team1Attack = teams[i].reduce((sum, p) => sum + p.attack, 0);
-                            const team1Defence = teams[i].reduce((sum, p) => sum + p.defence, 0);
-                            const team2Attack = teams[j].reduce((sum, p) => sum + p.attack, 0);
-                            const team2Defence = teams[j].reduce((sum, p) => sum + p.defence, 0);
-
-                            const currentDiff = Math.abs(team1Attack - team2Attack) + Math.abs(team1Defence - team2Defence);
-
-                            // Simulate swap
-                            const tempPlayer = teams[i][pi];
-                            teams[i][pi] = teams[j][pj];
-                            teams[j][pj] = tempPlayer;
-
-                            const newTeam1Attack = teams[i].reduce((sum, p) => sum + p.attack, 0);
-                            const newTeam1Defence = teams[i].reduce((sum, p) => sum + p.defence, 0);
-                            const newTeam2Attack = teams[j].reduce((sum, p) => sum + p.attack, 0);
-                            const newTeam2Defence = teams[j].reduce((sum, p) => sum + p.defence, 0);
-
-                            const newDiff = Math.abs(newTeam1Attack - newTeam2Attack) + Math.abs(newTeam1Defence - newTeam2Defence);
-
-                            if (newDiff < currentDiff) {
-                                improved = true;
-                            } else {
-                                // Revert the swap
-                                teams[j][pj] = teams[i][pi];
-                                teams[i][pi] = tempPlayer;
+                            if (trySwapPlayers(teams[i], teams[j], pi, pj)) {
+                                improvedThisIteration = true;
+                                break;
                             }
-
-                            if (improved) break;
                         }
-                        if (improved) break;
+                        if (improvedThisIteration) break;
                     }
-                    if (improved) break;
+                    if (improvedThisIteration) break;
                 }
-                if (improved) break;
+                if (improvedThisIteration) break;
             }
-            if (!improved) break;
+
+            // If no improvements were made this iteration, we're done
+            if (!improvedThisIteration) break;
         }
 
         return teams;
