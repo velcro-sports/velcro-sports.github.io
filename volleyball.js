@@ -40,17 +40,39 @@ $(document).ready(function () {
     // Function to display the players sorted by average skill (highest to lowest)
     function renderPlayerList() {
         $('#playerList tbody').empty();
-        players.sort((a, b) => ((b.attack + b.defence) / 2) - ((a.attack + a.defence) / 2)); // Sort by average skill descending
 
-        players.forEach((player, index) => {
+        // Calculate average skill and sort players
+        const rankedPlayers = players.map(player => ({
+            ...player,
+            avgSkill: (player.attack + player.defence) / 2
+        })).sort((a, b) => b.avgSkill - a.avgSkill);
+
+        // Assign ranks considering ties
+        let currentRank = 1;
+        let currentSkill = rankedPlayers[0]?.avgSkill;
+        let skipCount = 0;
+
+        rankedPlayers.forEach((player, index) => {
+            // If this player's skill is different from the previous one,
+            // update the rank to account for all previous ties
+            if (player.avgSkill !== currentSkill) {
+                currentRank = currentRank + skipCount + 1;
+                currentSkill = player.avgSkill;
+                skipCount = 0;
+            } else if (index > 0) {
+                // Count how many players are tied
+                skipCount++;
+            }
+
+            // Only render if player is not already in a team
             if ($(".team-players").find("[data-name='" + player.name + "']").length === 0) {
                 $('#playerList tbody').append(`
                     <tr class="draggable hover:bg-gray-50" data-name="${player.name}" data-attack="${player.attack}" data-defence="${player.defence}">
-                        <td class="border border-gray-200 p-3 text-center">${index + 1}</td>
-                        <td class="border border-gray-200 p-3 text-center">${player.name}</td>
-                        <td class="border border-gray-200 p-3 text-center">${player.attack}</td>
-                        <td class="border border-gray-200 p-3 text-center">${player.defence}</td>
-                        <td class="border border-gray-200 p-1 text-center">
+                        <td class="border border-gray-200 px-1 py-2 text-center">${currentRank}</td>
+                        <td class="border border-gray-200 px-1 py-2 text-center">${player.name}</td>
+                        <td class="border border-gray-200 px-1 py-2 text-center">${player.attack}</td>
+                        <td class="border border-gray-200 px-1 py-2 text-center">${player.defence}</td>
+                        <td class="border border-gray-200 px-1 py-2 text-center">
                             <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="1">1</button>
                             <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="2">2</button>
                             <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="3">3</button>
