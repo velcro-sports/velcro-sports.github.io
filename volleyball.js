@@ -207,26 +207,6 @@ $(document).ready(function () {
             $("#team" + i + " .avg-skill").text(`Average: ${avgSkill}`);
             $("#team" + i + " .avg-skill-details").text(`(A: ${avgAttack}, D: ${avgDefence})`);
         }
-
-        // Check for skill differences between teams
-        checkSkillDifference();
-    }
-
-    // Function to check if the average skill difference is too large
-    function checkSkillDifference() {
-        let team1Avg = parseFloat($("#team1 .avg-skill").text().split(':')[1].split('(')[0]);
-        let team2Avg = parseFloat($("#team2 .avg-skill").text().split(':')[1].split('(')[0]);
-        let team3Avg = parseFloat($("#team3 .avg-skill").text().split(':')[1].split('(')[0]);
-
-        let skillDifference12 = Math.abs(team1Avg - team2Avg);
-        let skillDifference13 = Math.abs(team1Avg - team3Avg);
-        let skillDifference23 = Math.abs(team2Avg - team3Avg);
-
-        if (skillDifference12 > 0.3 || skillDifference13 > 0.3 || skillDifference23 > 0.3) {
-            $("#warning").removeClass("hidden");
-        } else {
-            $("#warning").addClass("hidden");
-        }
     }
 
     // Clear all teams and reset the player list
