@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    // Sample player data
-    const players = [
+    const players_old = [
         { name: "Aiesh", attack: 8, defence: 7 },
         { name: "Zaid", attack: 7, defence: 5 },
         { name: "Shoaib", attack: 6, defence: 7 },
@@ -37,15 +36,64 @@ $(document).ready(function () {
         { name: "Faizan", attack: 5, defence: 5 }
     ];
 
+    const players = [
+        { name: "Aiesh", attack: 8, defence: 7 },
+        { name: "Zaid", attack: 7, defence: 6 },
+        { name: "Shoaib", attack: 6, defence: 7 },
+        { name: "Aman", attack: 9, defence: 9 },
+        { name: "Abdullah", attack: 8, defence: 4 },
+        { name: "Jayant", attack: 9, defence: 8 },
+        { name: "Osman", attack: 9, defence: 7 },
+        { name: "Wisam", attack: 6, defence: 4 },
+        { name: "Rohail", attack: 8, defence: 6 },
+        { name: "Affan", attack: 6, defence: 6 },
+        { name: "Hammad", attack: 4, defence: 4 },
+        { name: "Imam", attack: 7, defence: 6 },
+        { name: "Hassan", attack: 7, defence: 7 },
+        { name: "Moin", attack: 6, defence: 6 },
+        { name: "Saad", attack: 6, defence: 7 },
+        { name: "Salim", attack: 7, defence: 7 },
+        { name: "Waeel", attack: 4, defence: 5 },
+        { name: "Basil", attack: 4, defence: 4 },
+        { name: "Turab", attack: 9, defence: 9 },
+        { name: "Anees", attack: 8, defence: 7 },
+        { name: "Hussain", attack: 5, defence: 5 },
+        { name: "Roshan", attack: 7, defence: 7 },
+        { name: "Majd", attack: 8, defence: 7 },
+        { name: "Yahya", attack: 4, defence: 4 },
+        { name: "Mohammed", attack: 4, defence: 4 },
+        { name: "Mahd", attack: 4, defence: 4 },
+        { name: "Owais", attack: 7, defence: 7 },
+        { name: "Arham", attack: 7, defence: 7 },
+        { name: "Ebrahim", attack: 3, defence: 3 },
+        { name: "Hamza", attack: 6, defence: 6 },
+        { name: "Muqtadir", attack: 5, defence: 5 },
+        { name: "Anas", attack: 5, defence: 5 },
+        { name: "Zain", attack: 7, defence: 5 },
+        { name: "Faizan", attack: 5, defence: 5 }
+    ];
+
+    function formatSkillWithChange(currentSkill, oldSkill) {
+        if (!oldSkill || currentSkill === oldSkill) {
+            return currentSkill;
+        }
+        return `${currentSkill} <span class="text-xs ${oldSkill > currentSkill ? 'text-red-500' : 'text-green-500'}">(${oldSkill})</span>`;
+    }
+
     // Function to display the players sorted by average skill (highest to lowest)
     function renderPlayerList() {
         $('#playerList tbody').empty();
 
         // Calculate average skill and sort players
-        const rankedPlayers = players.map(player => ({
-            ...player,
-            avgSkill: (player.attack + player.defence) / 2
-        })).sort((a, b) => b.avgSkill - a.avgSkill);
+        const rankedPlayers = players.map(player => {
+            const oldStats = players_old.find(p => p.name === player.name) || {};
+            return {
+                ...player,
+                oldAttack: oldStats.attack,
+                oldDefence: oldStats.defence,
+                avgSkill: (player.attack + player.defence) / 2
+            };
+        }).sort((a, b) => b.avgSkill - a.avgSkill);
 
         // Assign ranks considering ties
         let currentRank = 1;
@@ -70,8 +118,12 @@ $(document).ready(function () {
                     <tr class="draggable hover:bg-gray-50" data-name="${player.name}" data-attack="${player.attack}" data-defence="${player.defence}">
                         <td class="border border-gray-200 px-1 py-2 text-center">${currentRank}</td>
                         <td class="border border-gray-200 px-1 py-2 text-center">${player.name}</td>
-                        <td class="border border-gray-200 px-1 py-2 text-center">${player.attack}</td>
-                        <td class="border border-gray-200 px-1 py-2 text-center">${player.defence}</td>
+                        <td class="border border-gray-200 px-1 py-2 text-center">
+                            ${formatSkillWithChange(player.attack, player.oldAttack)}
+                        </td>
+                        <td class="border border-gray-200 px-1 py-2 text-center">
+                            ${formatSkillWithChange(player.defence, player.oldDefence)}
+                        </td>
                         <td class="border border-gray-200 px-1 py-2 text-center">
                             <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="1">1</button>
                             <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="2">2</button>
