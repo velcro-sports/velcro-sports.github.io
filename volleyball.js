@@ -45,15 +45,15 @@ $(document).ready(function () {
         players.forEach((player, index) => {
             if ($(".team-players").find("[data-name='" + player.name + "']").length === 0) {
                 $('#playerList tbody').append(`
-                    <tr class="draggable" data-name="${player.name}" data-attack="${player.attack}" data-defence="${player.defence}">
-                        <td>${index + 1}</td>
-                        <td>${player.name}</td>
-                        <td>${player.attack}</td>
-                        <td>${player.defence}</td>
-                        <td>
-                            <button class="add-to-team" data-team="1">1</button>
-                            <button class="add-to-team" data-team="2">2</button>
-                            <button class="add-to-team" data-team="3">3</button>
+                    <tr class="draggable hover:bg-gray-50" data-name="${player.name}" data-attack="${player.attack}" data-defence="${player.defence}">
+                        <td class="border border-gray-200 p-3 text-center">${index + 1}</td>
+                        <td class="border border-gray-200 p-3 text-center">${player.name}</td>
+                        <td class="border border-gray-200 p-3 text-center">${player.attack}</td>
+                        <td class="border border-gray-200 p-3 text-center">${player.defence}</td>
+                        <td class="border border-gray-200 p-1 text-center">
+                            <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="1">1</button>
+                            <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="2">2</button>
+                            <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="3">3</button>
                         </td>
                     </tr>
                 `);
@@ -81,9 +81,15 @@ $(document).ready(function () {
 
         // Add the player to the selected team
         selectedTeam.append(`
-            <div class="player" data-name="${playerName}" data-attack="${playerAttack}" data-defence="${playerDefence}">
-                ${playerName} (A: ${playerAttack}, D: ${playerDefence})
-                <button class="remove-player">X</button>
+            <div class="player flex justify-between items-center bg-gray-300 p-1 rounded mb-1" 
+                data-name="${playerName}" 
+                data-attack="${playerAttack}" 
+                data-defence="${playerDefence}">
+                <div class="leading-tight">
+                    <span class="block">${playerName}</span>
+                    <span class="text-xs">(A: ${playerAttack}, D: ${playerDefence})</span>
+                </div>
+                <button class="remove-player mx-2 text-red-500 hover:text-red-700 font-bold">×</button>
             </div>
         `);
 
@@ -97,9 +103,6 @@ $(document).ready(function () {
     // Function to remove players from teams
     $(document).on("click", ".remove-player", function () {
         let playerDiv = $(this).closest(".player");
-        let playerName = playerDiv.data("name");
-        let playerAttack = playerDiv.data("attack");
-        let playerDefence = playerDiv.data("defence");
 
         // Remove the player from the team
         playerDiv.remove();
@@ -127,7 +130,8 @@ $(document).ready(function () {
             let avgDefence = (teamPlayers.length > 0) ? (totalDefence / teamPlayers.length).toFixed(2) : "0.00";
             let avgSkill = (teamPlayers.length > 0) ? ((totalAttack + totalDefence) / (2 * teamPlayers.length)).toFixed(2) : "0.00";
 
-            $("#team" + i + " .avg-skill").text(`Avg: ${avgSkill} (A: ${avgAttack}, D: ${avgDefence})`);
+            $("#team" + i + " .avg-skill").text(`Average: ${avgSkill}`);
+            $("#team" + i + " .avg-skill-details").text(`(A: ${avgAttack}, D: ${avgDefence})`);
         }
 
         // Check for skill differences between teams
@@ -306,9 +310,15 @@ $(document).ready(function () {
             const teamElement = $(`#team${index + 1} .team-players`);
             team.forEach(player => {
                 teamElement.append(`
-                    <div class="player" data-name="${player.name}" data-attack="${player.attack}" data-defence="${player.defence}">
-                        ${player.name} (A: ${player.attack}, D: ${player.defence})
-                        <button class="remove-player">X</button>
+                    <div class="player flex justify-between items-center bg-gray-300 p-1 rounded mb-1" 
+                        data-name="${player.name}" 
+                        data-attack="${player.attack}" 
+                        data-defence="${player.defence}">
+                        <div class="leading-tight">
+                            <span class="block">${player.name}</span>
+                            <span class="text-xs">(A: ${player.attack}, D: ${player.defence})</span>
+                        </div>
+                        <button class="remove-player mx-2 text-red-500 hover:text-red-700 font-bold">×</button>
                     </div>
                 `);
             });

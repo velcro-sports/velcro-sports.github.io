@@ -5,60 +5,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volleyball</title>
-    <link rel="stylesheet" href="volleyball.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="volleyball.js"></script>
 </head>
 
-<body>
-    <div class="container">
-        <h1>Velcro Volleyball</h1>
-        <h2>Team Selection Tool</h2>
+<body class="bg-gray-100 p-4 text-gray-800">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-2">Velcro Volleyball</h1>
+        <h2 class="text-xl text-center mb-4">Team Selection Tool</h2>
 
-        <div class="teams-container">
-            <div id="team1" class="team">
-                <h2>Team 1</h2>
-                <div class="team-players"></div>
-                <p>Average Skill:</p>
-                <p class="avg-skill"></p>
+        <div class="grid grid-cols-3 gap-1 mb-3">
+            <div id="team1" class="bg-white rounded-lg shadow-md px-2 pt-2">
+                <h2 class="text-lg font-bold text-gray-700 uppercase tracking-wide mb-1">Team 1</h2>
+                <div class="team-players min-h-[120px] border-2 border border-gray-200 rounded-lg p-1 bg-gray-50 mb-2">
+                </div>
+                <p class="text-sm font-bold underline">Team Stats</p>
+                <p class="avg-skill font-semibold text-sm mb-1"></p>
+                <p class="avg-skill-details font-medium text-xs mb-1"></p>
             </div>
-            <div id="team2" class="team">
-                <h2>Team 2</h2>
-                <div class="team-players"></div>
-                <p>Average Skill:</p>
-                <p class="avg-skill"></p>
+            <div id="team2" class="bg-white rounded-lg shadow-md px-2 pt-2">
+                <h2 class="text-lg font-bold text-gray-700 uppercase tracking-wide mb-1">Team 2</h2>
+                <div class="team-players min-h-[120px] border-2 border border-gray-200 rounded-lg p-1 bg-gray-50 mb-2">
+                </div>
+                <p class="text-sm font-bold underline">Team Stats</p>
+                <p class="avg-skill font-semibold text-sm mb-1"></p>
+                <p class="avg-skill-details font-medium text-xs mb-1"></p>
             </div>
-            <div id="team3" class="team">
-                <h2>Team 3</h2>
-                <div class="team-players"></div>
-                <p>Average Skill:</p>
-                <p class="avg-skill"></p>
+            <div id="team3" class="bg-white rounded-lg shadow-md px-2 pt-2">
+                <h2 class="text-lg font-bold text-gray-700 uppercase tracking-wide mb-1">Team 3</h2>
+                <div class="team-players min-h-[120px] border-2 border border-gray-200 rounded-lg p-1 bg-gray-50 mb-2">
+                </div>
+                <p class="text-sm font-bold underline">Team Stats</p>
+                <p class="avg-skill font-semibold text-sm mb-1"></p>
+                <p class="avg-skill-details font-medium text-xs mb-1"></p>
             </div>
         </div>
 
-        <table class="players-table" id="playerList">
+        <table class="w-full mb-6 border-collapse" id="playerList">
             <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Player</th>
-                    <th>ATK</th>
-                    <th>DEF</th>
-                    <th>Team</th>
+                <tr class="bg-gray-50">
+                    <th class="border border-gray-200 p-3 text-center">#</th>
+                    <th class="border border-gray-200 p-3 text-center">Player</th>
+                    <th class="border border-gray-200 p-3 text-center">ATK</th>
+                    <th class="border border-gray-200 p-3 text-center">DEF</th>
+                    <th class="border border-gray-200 p-3 text-center">Team</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Player rows will be added dynamically in the script -->
+                <!-- Player rows will be added dynamically -->
             </tbody>
         </table>
-        <button id="clearAll">Clear All Teams</button>
 
-        <div id="warning" class="hidden">Warning: The skill difference between teams is too large!</div>
+        <button id="clearAll"
+            class="mx-auto block px-6 py-2 bg-red-500 hover:bg-red-600 text-white font-bold uppercase rounded-md shadow transition-all duration-300 hover:shadow-lg active:transform active:translate-y-0.5 mb-6">
+            Clear All Teams
+        </button>
 
-        <div class="roster-input">
-            <h2>Generate Teams</h2>
-            <textarea id="rosterInput" rows="10" cols="50"
+        <div id="warning" class="hidden text-center text-red-500 text-lg mt-4">
+            Warning: The skill difference between teams is too large!
+        </div>
+        <hr />
+        <div class="text-center mt-4 flex flex-col">
+            <h2 class="text-2xl font-bold mb-4">Generate Teams</h2>
+            <textarea id="rosterInput"
+                class="w-full max-w-2xl mx-auto p-3 border border-gray-300 rounded-lg resize-y mb-4" rows="10"
                 placeholder="Paste the WhatsApp sign-up message here."></textarea>
-            <button id="createTeams">Create Balanced Teams</button>
+            <button id="createTeams"
+                class="mx-auto px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold uppercase rounded-md shadow transition-all duration-300 hover:shadow-lg active:transform active:translate-y-0.5">
+                Create Balanced Teams
+            </button>
         </div>
     </div>
 </body>
