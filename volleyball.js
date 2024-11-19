@@ -77,7 +77,8 @@ $(document).ready(function () {
         if (!oldSkill || currentSkill === oldSkill) {
             return currentSkill;
         }
-        return `${currentSkill} <span class="text-xs ${oldSkill > currentSkill ? 'text-red-500' : 'text-green-500'}">(${oldSkill})</span>`;
+        const colorClass = currentSkill > oldSkill ? 'text-green-600 font-bold' : 'text-red-600 font-bold';
+        return `<span class="${colorClass}">${currentSkill}</span> <span class="text-gray-400 text-sm">(${oldSkill})</span>`;
     }
 
     // Function to display the players sorted by average skill (highest to lowest)
@@ -348,9 +349,14 @@ $(document).ready(function () {
     $("#createTeams").click(function () {
         const rosterText = $("#rosterInput").val();
         const extractedNames = extractNames(rosterText);
+        console.log("=== 1");
+        console.log(extractedNames);
 
         if (extractedNames.length === 0) {
             alert("No valid names found in the roster. Please check the input.");
+            return;
+        } else if (extractedNames.length > 18) {
+            alert("More than 18 players extracted - invalid!");
             return;
         }
 
