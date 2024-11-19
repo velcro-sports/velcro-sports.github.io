@@ -1,76 +1,74 @@
 $(document).ready(function () {
     const players_old = [
-        { name: "Aiesh", attack: 8, defence: 7 },
-        { name: "Zaid", attack: 7, defence: 5 },
-        { name: "Shoaib", attack: 6, defence: 7 },
-        { name: "Aman", attack: 9, defence: 9 },
-        { name: "Abdullah", attack: 7, defence: 4 },
-        { name: "Jayant", attack: 9, defence: 8 },
-        { name: "Osman", attack: 9, defence: 7 },
-        { name: "Wisam", attack: 6, defence: 4 },
-        { name: "Rohail", attack: 8, defence: 6 },
-        { name: "Affan", attack: 7, defence: 7 },
-        { name: "Hammad", attack: 5, defence: 5 },
-        { name: "Imam", attack: 7, defence: 5 },
-        { name: "Hassan", attack: 7, defence: 7 },
-        { name: "Moin", attack: 6, defence: 6 },
-        { name: "Saad", attack: 6, defence: 7 },
-        { name: "Salim", attack: 7, defence: 7 },
-        { name: "Waeel", attack: 4, defence: 5 },
-        { name: "Basil", attack: 4, defence: 4 },
-        { name: "Turab", attack: 9, defence: 9 },
-        { name: "Anees", attack: 8, defence: 7 },
-        { name: "Hussain", attack: 5, defence: 5 },
-        { name: "Roshan", attack: 7, defence: 7 },
-        { name: "Majd", attack: 8, defence: 7 },
-        { name: "Yahya", attack: 3, defence: 3 },
-        { name: "Mohammed", attack: 4, defence: 4 },
-        { name: "Mahd", attack: 4, defence: 4 },
-        { name: "Owais", attack: 7, defence: 7 },
-        { name: "Arham", attack: 7, defence: 7 },
-        { name: "Ebrahim", attack: 3, defence: 3 },
-        { name: "Hamza", attack: 6, defence: 6 },
-        { name: "Muqtadir", attack: 5, defence: 5 },
-        { name: "Anas", attack: 5, defence: 5 },
-        { name: "Zain", attack: 7, defence: 5 },
-        { name: "Faizan", attack: 5, defence: 5 }
+        { name: "Abdullah", attack: 7, defence: 4, num_games: 9 },
+        { name: "Affan", attack: 7, defence: 7, num_games: 3 },
+        { name: "Aiesh", attack: 8, defence: 7, num_games: 9 },
+        { name: "Aman", attack: 9, defence: 9, num_games: 8 },
+        { name: "Anas", attack: 5, defence: 5, num_games: 0 },
+        { name: "Anees", attack: 8, defence: 7, num_games: 5 },
+        { name: "Arham", attack: 7, defence: 7, num_games: 1 },
+        { name: "Basil", attack: 4, defence: 4, num_games: 9 },
+        { name: "Ebrahim", attack: 3, defence: 3, nußm_games: 2 },
+        { name: "Faizan", attack: 5, defence: 5, num_games: 1 },
+        { name: "Hammad", attack: 5, defence: 5, num_games: 1 },
+        { name: "Hamza", attack: 6, defence: 6, num_games: 3 },
+        { name: "Hassan", attack: 7, defence: 7, num_games: 5 },
+        { name: "Hussain", attack: 5, defence: 5, num_games: 2 },
+        { name: "Imam", attack: 7, defence: 5, num_games: 8 },
+        { name: "Jayant", attack: 9, defence: 8, num_games: 6 },
+        { name: "Mahd", attack: 4, defence: 4, num_games: 1 },
+        { name: "Majd", attack: 8, defence: 7, num_games: 5 },
+        { name: "Moin", attack: 6, defence: 6, num_games: 5 },
+        { name: "Muqtadir", attack: 5, defence: 5, num_games: 0 },
+        { name: "Osman", attack: 9, defence: 7, num_games: 5 },
+        { name: "Owais", attack: 7, defence: 7, num_games: 1 },
+        { name: "Rohail", attack: 8, defence: 6, num_games: 3 },
+        { name: "Roshan", attack: 7, defence: 7, num_games: 4 },
+        { name: "Saad", attack: 6, defence: 7, num_games: 8 },
+        { name: "Salim", attack: 7, defence: 7, num_games: 8 },
+        { name: "Shoaib", attack: 6, defence: 7, num_games: 8 },
+        { name: "Turab", attack: 9, defence: 9, num_games: 2 },
+        { name: "Waeel", attack: 4, defence: 5, num_games: 7 },
+        { name: "Wisam", attack: 6, defence: 4, num_games: 9 },
+        { name: "Yahya", attack: 3, defence: 3, num_games: 4 },
+        { name: "Zaid", attack: 7, defence: 5, num_games: 9 },
+        { name: "Zain", attack: 7, defence: 5, num_games: 0 },
     ];
 
     const players = [
-        { name: "Aiesh", attack: 8, defence: 7 },
-        { name: "Zaid", attack: 7, defence: 6 },
-        { name: "Shoaib", attack: 6, defence: 7 },
-        { name: "Aman", attack: 9, defence: 9 },
-        { name: "Abdullah", attack: 8, defence: 4 },
-        { name: "Jayant", attack: 9, defence: 8 },
-        { name: "Osman", attack: 9, defence: 7 },
-        { name: "Wisam", attack: 6, defence: 4 },
-        { name: "Rohail", attack: 8, defence: 6 },
-        { name: "Affan", attack: 6, defence: 6 },
-        { name: "Hammad", attack: 4, defence: 4 },
-        { name: "Imam", attack: 7, defence: 6 },
-        { name: "Hassan", attack: 7, defence: 7 },
-        { name: "Moin", attack: 6, defence: 6 },
-        { name: "Saad", attack: 6, defence: 7 },
-        { name: "Salim", attack: 7, defence: 7 },
-        { name: "Waeel", attack: 4, defence: 5 },
-        { name: "Basil", attack: 4, defence: 4 },
-        { name: "Turab", attack: 9, defence: 9 },
-        { name: "Anees", attack: 8, defence: 7 },
-        { name: "Hussain", attack: 5, defence: 5 },
-        { name: "Roshan", attack: 7, defence: 7 },
-        { name: "Majd", attack: 8, defence: 7 },
-        { name: "Yahya", attack: 4, defence: 4 },
-        { name: "Mohammed", attack: 4, defence: 4 },
-        { name: "Mahd", attack: 4, defence: 4 },
-        { name: "Owais", attack: 7, defence: 7 },
-        { name: "Arham", attack: 7, defence: 7 },
-        { name: "Ebrahim", attack: 3, defence: 3 },
-        { name: "Hamza", attack: 6, defence: 6 },
-        { name: "Muqtadir", attack: 5, defence: 5 },
-        { name: "Anas", attack: 5, defence: 5 },
-        { name: "Zain", attack: 7, defence: 5 },
-        { name: "Faizan", attack: 5, defence: 5 }
+        { name: "Abdullah", attack: 8, defence: 5, num_games: 10 },
+        { name: "Affan", attack: 6, defence: 6, num_games: 4 },
+        { name: "Aiesh", attack: 8, defence: 7, num_games: 10 },
+        { name: "Aman", attack: 9, defence: 9, num_games: 8 },
+        { name: "Anas", attack: 5, defence: 5, num_games: 1 },
+        { name: "Anees", attack: 8, defence: 7, num_games: 5 },
+        { name: "Arham", attack: 7, defence: 7, num_games: 1 },
+        { name: "Basil", attack: 4, defence: 4, num_games: 10 },
+        { name: "Ebrahim", attack: 3, defence: 3, num_games: 2 },
+        { name: "Faizan", attack: 5, defence: 5, num_games: 1 },
+        { name: "Hammad", attack: 4, defence: 4, num_games: 2 },
+        { name: "Hamza", attack: 4, defence: 6, num_games: 4 },
+        { name: "Hassan", attack: 7, defence: 7, num_games: 5 },
+        { name: "Hussain", attack: 5, defence: 5, num_games: 2 },
+        { name: "Imam", attack: 7, defence: 6, num_games: 9 },
+        { name: "Jayant", attack: 9, defence: 8, num_games: 6 },
+        { name: "Mahd", attack: 4, defence: 4, num_games: 1 },
+        { name: "Majd", attack: 8, defence: 7, num_games: 6 },
+        { name: "Moin", attack: 6, defence: 6, num_games: 5 },
+        { name: "Muqtadir", attack: 6, defence: 4, num_games: 1 },
+        { name: "Osman", attack: 9, defence: 7, num_games: 6 },
+        { name: "Owais", attack: 7, defence: 7, num_games: 1 },
+        { name: "Rohail", attack: 8, defence: 6, num_games: 3 },
+        { name: "Roshan", attack: 7, defence: 7, num_games: 4 },
+        { name: "Saad", attack: 6, defence: 7, num_games: 9 },
+        { name: "Salim", attack: 7, defence: 7, num_games: 9 },
+        { name: "Shoaib", attack: 6, defence: 7, num_games: 9 },
+        { name: "Turab", attack: 9, defence: 9, num_games: 3 },
+        { name: "Waeel", attack: 4, defence: 5, num_games: 7 },
+        { name: "Wisam", attack: 6, defence: 4, num_games: 9 },
+        { name: "Yahya", attack: 4, defence: 4, num_games: 5 },
+        { name: "Zaid", attack: 7, defence: 6, num_games: 10 },
+        { name: "Zain", attack: 7, defence: 5, num_games: 1 },
     ];
 
     function formatSkillWithChange(currentSkill, oldSkill) {
@@ -94,23 +92,27 @@ $(document).ready(function () {
                 oldDefence: oldStats.defence,
                 avgSkill: (player.attack + player.defence) / 2
             };
-        }).sort((a, b) => b.avgSkill - a.avgSkill);
+        }).sort((a, b) => {
+            // First compare by average skill
+            const skillDiff = b.avgSkill - a.avgSkill;
+            // If skills are equal, use games played as tiebreaker
+            if (b.avgSkill === a.avgSkill) {
+                return (b.num_games || 0) - (a.num_games || 0);
+            }
+            return skillDiff;
+        });
 
         // Assign ranks considering ties
         let currentRank = 1;
-        let currentSkill = rankedPlayers[0]?.avgSkill;
-        let skipCount = 0;
+        let previousPlayer = null;
 
         rankedPlayers.forEach((player, index) => {
-            // If this player's skill is different from the previous one,
-            // update the rank to account for all previous ties
-            if (player.avgSkill !== currentSkill) {
-                currentRank = currentRank + skipCount + 1;
-                currentSkill = player.avgSkill;
-                skipCount = 0;
-            } else if (index > 0) {
-                // Count how many players are tied
-                skipCount++;
+            if (previousPlayer) {
+                // Only increment rank if this player is different in either skill or games
+                if (player.avgSkill !== previousPlayer.avgSkill ||
+                    player.num_games !== previousPlayer.num_games) {
+                    currentRank = index + 1;
+                }
             }
 
             // Only render if player is not already in a team
@@ -119,6 +121,7 @@ $(document).ready(function () {
                     <tr class="draggable hover:bg-gray-50" data-name="${player.name}" data-attack="${player.attack}" data-defence="${player.defence}">
                         <td class="border border-gray-200 px-1 py-2 text-center">${currentRank}</td>
                         <td class="border border-gray-200 px-1 py-2 text-center">${player.name}</td>
+                        <td class="border border-gray-200 px-1 py-2 text-center">${player.num_games}</td>
                         <td class="border border-gray-200 px-1 py-2 text-center">
                             ${formatSkillWithChange(player.attack, player.oldAttack)}
                         </td>
@@ -133,6 +136,8 @@ $(document).ready(function () {
                     </tr>
                 `);
             }
+
+            previousPlayer = player;
         });
     }
 
