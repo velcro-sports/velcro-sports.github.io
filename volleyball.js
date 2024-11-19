@@ -125,9 +125,9 @@ $(document).ready(function () {
                             ${formatSkillWithChange(player.defence, player.oldDefence)}
                         </td>
                         <td class="border border-gray-200 px-1 py-2 text-center">
-                            <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="1">1</button>
-                            <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="2">2</button>
-                            <button class="add-to-team px-2 bg-green-500 hover:bg-green-600 text-white rounded mx-1 transition-colors duration-200" data-team="3">3</button>
+                            <button class="add-to-team px-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded mx-1 transition-all duration-200" data-team="1">1</button>
+                            <button class="add-to-team px-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded mx-1 transition-all duration-200" data-team="2">2</button>
+                            <button class="add-to-team px-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded mx-1 transition-all duration-200" data-team="3">3</button>
                         </td>
                     </tr>
                 `);
