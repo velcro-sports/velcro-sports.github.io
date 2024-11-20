@@ -56,7 +56,7 @@ $(document).ready(function () {
         { name: "Majd", attack: 8, defence: 7, num_games: 6 },
         { name: "Moin", attack: 6, defence: 6, num_games: 5 },
         { name: "Muqtadir", attack: 6, defence: 4, num_games: 1 },
-        { name: "Osman", attack: 9, defence: 7, num_games: 6 },
+        { name: "Osman", attack: 9, defence: 8, num_games: 6 },
         { name: "Owais", attack: 7, defence: 7, num_games: 1 },
         { name: "Rohail", attack: 8, defence: 6, num_games: 3 },
         { name: "Roshan", attack: 7, defence: 7, num_games: 4 },
